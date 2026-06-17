@@ -1,0 +1,12 @@
+########################################
+# Auto Gather Tracking Config
+########################################
+#
+#    AutoGatherTracking.Enable
+#        Description: If enabled, players with Herbalism or Mining automatically
+#                     track nearby herb and ore nodes on the minimap without
+#                     needing to keep Find Herbs or Find Minerals selected.
+#        Default:     0 - Disabled, normal minimap tracking behavior
+#                     1 - Enabled, auto-track known gathering professions
+#
+AutoGatherTracking.Enable = 0
