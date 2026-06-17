@@ -18,9 +18,16 @@ constexpr uint32 TRACK_RESOURCE_HERBS = uint32(1) << (LOCKTYPE_HERBALISM - 1);
 constexpr uint32 TRACK_RESOURCE_MINING = uint32(1) << (LOCKTYPE_MINING - 1);
 constexpr uint32 TRACK_RESOURCE_GATHERING_MASK = TRACK_RESOURCE_HERBS | TRACK_RESOURCE_MINING;
 
+bool sAutoGatherTrackingEnabled = false;
+
 bool IsAutoGatherTrackingEnabled()
 {
-    return sConfigMgr->GetOption<bool>(CONFIG_AUTO_GATHER_TRACKING_ENABLE, false);
+    return sAutoGatherTrackingEnabled;
+}
+
+void LoadAutoGatherTrackingConfig()
+{
+    sAutoGatherTrackingEnabled = sConfigMgr->GetOption<bool>(CONFIG_AUTO_GATHER_TRACKING_ENABLE, false);
 }
 
 uint32 BuildAutoGatherTrackingMask(Player const* player)
@@ -61,6 +68,20 @@ bool IsResourceTrackingAura(AuraApplication* aurApp)
     return spellInfo && spellInfo->HasAura(SPELL_AURA_TRACK_RESOURCES);
 }
 }
+
+class AutoGatherTrackingWorldScript : public WorldScript
+{
+public:
+    AutoGatherTrackingWorldScript()
+        : WorldScript("AutoGatherTrackingWorldScript", { WORLDHOOK_ON_AFTER_CONFIG_LOAD })
+    {
+    }
+
+    void OnAfterConfigLoad(bool /*reload*/) override
+    {
+        LoadAutoGatherTrackingConfig();
+    }
+};
 
 class AutoGatherTrackingPlayerScript : public PlayerScript
 {
@@ -118,6 +139,7 @@ public:
 
 void AddSC_auto_gather_tracking()
 {
+    new AutoGatherTrackingWorldScript();
     new AutoGatherTrackingPlayerScript();
     new AutoGatherTrackingUnitScript();
 }
