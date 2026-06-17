@@ -34,3 +34,5 @@ No database SQL is required.
 This module does not teach professions, grant tracking spells, or change node spawn behavior. It only keeps the resource tracking mask aligned with the professions the player already knows.
 
 If a player only has Herbalism, only herb tracking is restored. If a player only has Mining, only mineral tracking is restored. If a player has both, both are restored.
+
+Attached is a compatible Gatherer addon.
